@@ -17,6 +17,17 @@ def run_xml2csv(filepath):
         os.system("""python %s %s --separator "," """ % (os.path.join(tools, 'xml', 'xml2csv.py'), filepath))
 
 
+def plotstuff(axis, dataset, xlabel, ylabel, style, legendlabel, axeslabels, savename):
+    axis.plot(dataset[xlabel], dataset[ylabel], style, label=legendlabel)
+    if 'x' in axeslabels.keys():
+        axis.set_xlabel(axeslabels['x'])
+    elif 'y' in axeslabels.keys():
+        axis.set_xlabel(axeslabels['y'])
+
+    if len(savename):
+        plt.savefig(fname=savename)
+
+
 SumoDataDir = r'/home/karumanchi.1/Downloads/Downtown/'
 SumoDataXML = r'traci_single_veh_test_out.xml'
 run_xml2csv(os.path.join(SumoDataDir, SumoDataXML))
@@ -45,6 +56,7 @@ print(vddata)
 # ax1.set_ylabel('X-Position (m)')
 # ax2.set_ylabel('Y-Position (m)')
 # plt.legend()
+
 # plt.savefig(fname='X_and_Y_Pos_vs_Time.pdf')
 #
 # fig2, ax = plt.subplots()

@@ -21,8 +21,9 @@ def plotstuff(axis, dataset, xlabel, ylabel, style, legendlabel, axeslabels):#, 
     axis.plot(dataset[xlabel], dataset[ylabel], style, label=legendlabel)
     if 'x' in axeslabels.keys():
         axis.set_xlabel(axeslabels['x'])
-    elif 'y' in axeslabels.keys():
-        axis.set_xlabel(axeslabels['y'])
+
+    if 'y' in axeslabels.keys():
+        axis.set_ylabel(axeslabels['y'])
 
     # if bLegend:
     #     plt.legend()
@@ -46,7 +47,7 @@ vddata = vddata.loc[:, retained_cols]
 vddata.columns = col_names
 vddata['Xposition'] *= 0.01
 vddata['Yposition'] *= -0.01
-vddata['Yaw'] *= -180/math.pi
+vddata['Yaw'] *= -1
 
 fig1, axs = plt.subplots(3, 1)
 plot_labels_vddata= zip(axs, ['Time' for _ in range(len(axs))], ['Xposition', 'Yposition', 'Yaw'])
@@ -58,13 +59,14 @@ for ax, sumox, sumoy in plot_labels_sumodata:
     plotstuff(ax, sumodata, sumox, sumoy, 'r-', 'SUMO', {})
 
 for ax, vdx, vdy in plot_labels_vddata:
-    plotstuff(ax, vddata, vdx, vdy, 'b-', 'Veh. Dyn.', {'x': 'Time (s)', 'y': vdx})
+    plotstuff(ax, vddata, vdx, vdy, 'b-', 'Veh. Dyn.', {'x': 'Time (s)', 'y': vdy})
 
 plt.legend(loc='upper right')
 plt.savefig(fname='Time_vs_Output.pdf')
 
 fig2, ax = plt.subplots()
-plotstuff(ax, sumodata, 'vehicle_x', 'vehicle_y', style='r-', legendlabel='SUMO', axeslabels={'x': 'X-Position (m)', 'y': 'Y-Position (m)'})
+plotstuff(ax, sumodata, 'vehicle_x', 'vehicle_y', style='r-', legendlabel='SUMO',
+          axeslabels={'x': 'X-Position (m)', 'y': 'Y-Position (m)'})
 plotstuff(ax, vddata, 'Xposition', 'Yposition', style='b-', legendlabel='Veh. Dyn.', axeslabels={})
 
 plt.legend()

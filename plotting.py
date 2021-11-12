@@ -50,10 +50,8 @@ vddata['Yposition'] *= -0.01
 vddata['Yaw'] *= -1
 
 fig1, axs = plt.subplots(3, 1)
-plot_labels_vddata= zip(axs, ['Time' for _ in range(len(axs))], ['Xposition', 'Yposition', 'Yaw'])
-plot_labels_sumodata= zip(axs, ['timestep_time' for _ in range(len(axs))], ['vehicle_x', 'vehicle_y', 'vehicle_angle'])
-
-idx = 0
+plot_labels_vddata = zip(axs, ['Time' for _ in range(len(axs))], ['Xposition', 'Yposition', 'Yaw'])
+plot_labels_sumodata = zip(axs, ['timestep_time' for _ in range(len(axs))], ['vehicle_x', 'vehicle_y', 'vehicle_angle'])
 
 for ax, sumox, sumoy in plot_labels_sumodata:
     plotstuff(ax, sumodata, sumox, sumoy, 'r-', 'SUMO', {})
@@ -62,7 +60,7 @@ for ax, vdx, vdy in plot_labels_vddata:
     plotstuff(ax, vddata, vdx, vdy, 'b-', 'Veh. Dyn.', {'x': 'Time (s)', 'y': vdy})
 
 plt.legend(loc='upper right')
-plt.savefig(fname='Time_vs_Output.pdf')
+plt.savefig(fname='Output_vs_Time.pdf')
 
 fig2, ax = plt.subplots()
 plotstuff(ax, sumodata, 'vehicle_x', 'vehicle_y', style='r-', legendlabel='SUMO',
@@ -71,4 +69,13 @@ plotstuff(ax, vddata, 'Xposition', 'Yposition', style='b-', legendlabel='Veh. Dy
 
 plt.legend()
 plt.savefig(fname='X_vs_Y_Pos.pdf')
+
+fig3, axs = plt.subplots(2, 1)
+plot_labels_vddata = zip(axs, ['Time' for _ in range(len(axs))], ['Yaw', 'Steering'])
+plotstuff(axs[0], sumodata, 'timestep_time', 'vehicle_angle', style='r-', legendlabel='SUMO', axeslabels={})
+for ax, vdx, vdy in plot_labels_vddata:
+    plotstuff(ax, vddata, vdx, vdy, style='b-', legendlabel='Veh. Dyn.', axeslabels={'x': 'Time(s)', 'y': vdy})
+
+plt.legend()
+plt.savefig(fname='Steering_vs_Time.pdf')
 # plt.show()

@@ -35,7 +35,8 @@ def plotstuff(axis, dataset, xlabel, ylabel, style, legendlabel, axeslabels):#, 
 SumoDataDir = r'/home/karumanchi.1/Downloads/Downtown/'
 SumoDataXML = r'traci_single_veh_test_out.xml'
 run_xml2csv(os.path.join(SumoDataDir, SumoDataXML))
-VDDataDir = r'/home/karumanchi.1/Documents/UnrealProjects426/'
+# VDDataDir = r'/home/karumanchi.1/Documents/UnrealProjects426/'
+VDDataDir = r'/home/karumanchi.1/Downloads'
 
 sumodata = pd.read_csv(os.path.join(SumoDataDir, SumoDataXML[:-4]+'.csv'), sep=',')
 vddata = pd.read_csv(os.path.join(VDDataDir, 'VehicleDynamicsOut.csv'), sep='\s+|;', header=None)

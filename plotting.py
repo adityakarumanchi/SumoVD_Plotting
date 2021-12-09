@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import sys
 import platform
+import numpy as np
 import math
 
 if 'SUMO_HOME' in os.environ:
@@ -35,8 +36,8 @@ def plotstuff(axis, dataset, xlabel, ylabel, style, legendlabel, axeslabels):#, 
 SumoDataDir = r'/home/karumanchi.1/Downloads/Downtown/'
 SumoDataXML = r'traci_single_veh_test_out.xml'
 run_xml2csv(os.path.join(SumoDataDir, SumoDataXML))
-# VDDataDir = r'/home/karumanchi.1/Documents/UnrealProjects426/'
-VDDataDir = r'/home/karumanchi.1/Downloads'
+VDDataDir = r'/home/karumanchi.1/Documents/UnrealProjects426/'
+# VDDataDir = r'/home/karumanchi.1/Downloads'
 
 sumodata = pd.read_csv(os.path.join(SumoDataDir, SumoDataXML[:-4]+'.csv'), sep=',')
 vddata = pd.read_csv(os.path.join(VDDataDir, 'VehicleDynamicsOut.csv'), sep='\s+|;', header=None)
@@ -79,4 +80,19 @@ for ax, vdx, vdy in plot_labels_vddata:
 
 plt.legend()
 plt.savefig(fname='Steering_vs_Time.pdf')
+
+fig4, ax = plt.subplots()
+plotstuff(ax, sumodata, xlabel='vehicle_x', ylabel='vehicle_y', style='r', legendlabel='SUMO out',
+          axeslabels={'x': 'X-Position (m)', 'y': 'Y-Position (m)'})
+plotstuff(ax, vddata, xlabel='SUMORefX', ylabel='SUMORefY', style='b--', legendlabel='SUMO ref. in UE', axeslabels={})
+plt.legend()
+plt.savefig(fname='SUMO_ref_comparison.pdf')
+
+fig5, ax = plt.subplots()
+vddata['Deltatime'] = np.append([0], np.diff(vddata['Time']))
+plotstuff(ax, vddata, xlabel='Time', ylabel='Deltatime', style='b', legendlabel='', axeslabels={'x': 'Time (s)', 'y': 'Deltatime (s)'})
+plt.savefig('Deltatime_vs_time.pdf')
+# ax.hist(np.diff(vddata['Time']))
+# plt.savefig(fname='Deltatime_Hist.pdf')
+
 # plt.show()
